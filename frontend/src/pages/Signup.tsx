@@ -1,14 +1,19 @@
 import { useState } from 'react'
-import Input from '../components/Input'
+import Input from '../components/Input' 
+import { userSignup } from '../store/userSlice/asyncThunk' 
+import { useAppDispatch } from '../store/userSlice/hooks'
 
 const Signup: React.FC = () => {
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [password, setPassword] = useState<string>(''); 
+    const dispatch = useAppDispatch()
     
     const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(name, email, password);
+        const data = { name, email, password }
+        dispatch(userSignup(data));
     }
 
     return (
