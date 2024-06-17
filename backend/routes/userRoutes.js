@@ -6,7 +6,7 @@ import { signupValidator, validator, loginValidator } from '../utils/validator.j
 
 const userRouter = Router();
 
-userRouter.get('/', getUser);
+userRouter.get('/', getUser); 
 userRouter.get('/authStatus', verifyToken, authStatusHandler);
 userRouter.post('/signup', signupValidator(), validator, userSignup);
 userRouter.post('/login', loginValidator(), validator,  userLogin);

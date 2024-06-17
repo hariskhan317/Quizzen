@@ -9,21 +9,19 @@ export const getUser = async (req, res) => {
 
 export const authStatusHandler = async (req, res) => {
     try {
-        const user = res.locals.jwtData.id;
+        const user = await User.findById(res.locals.jwtData.id);
         if (!user) {
             return res.status(401).send("Cant Find the user")
         }
-        
-        return res.cookie('auth_token', token, {
-            expires: expiryDate,
-            httpOnly: true, 
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'None',
-        }).status(200).send({message:"Successfully  auth Status", name: user.name, email: user.email})
 
-    } catch (error) {
-        console.log(error);
-        return res.status(404).send({ message: "NOT_FOUND 404 Signin error", cause:error.message })
+        if (user._id.toString() !== res.locals.jwtData.id) {
+            return res.status(401).send("Not the same user")
+        }
+        
+        return res.status(200).json({ status: 200, name: user.name, email: user.email });
+
+    } catch (error) { 
+        return res.status(404).send({ message: "NOT_FOUND 404 Authentication failed", cause:error.message })
     }
 } 
 
@@ -38,26 +36,25 @@ export const userSignup = async(req, res) => {
         const hashPassword = await bcrypt.hash(password, 10)
     
         const user = new User({name, email, password: hashPassword})
+
+        res.clearCookie('auth_token', { 
+            httpOnly: true,
+            sameSite: 'Strict',  
+            // secure: process.env.NODE_ENV === 'production',
+        })
+        const token = createToken(user._id, user.email);
     
+        res.cookie('auth_token', token, {
+            maxAge: 1 * 24 * 60 * 60 * 1000,
+            httpOnly: true,
+            sameSite: 'Strict',  
+            // secure: process.env.NODE_ENV === 'production',
+        })
+        
         await user.save();
 
-        res.clearCookie('auth_token', {
-            httpOnly: true, 
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'None', 
-        })
-        const expiryDate = new Date(Date.now() + 36000000); // 1 day
-        const token = createToken(user.name, user.email);
-
-    
-        return res.cookie('auth_token', token, {
-            expires: expiryDate,
-            httpOnly: true, 
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'None',
-        }).status(200).send({message:"Successfully created the user", name: user.name, email: user.email})
-    } catch (error) {
-        console.log(error);
+        return res.status(200).send({message:"Successfully created the user", name: user.name, email: user.email})
+    } catch (error) { 
         return res.status(404).send({ message: "NOT_FOUND 404 Signin error", cause:error.message })
     }
 }
@@ -77,22 +74,22 @@ export const userLogin = async (req, res) => {
             return res.status(401).send("Can not verify the Password, Try Again")
         }
 
-        res.clearCookie('auth_token', {
-            httpOnly: true, 
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'None', 
-        })
-        const expiryDate = new Date(Date.now() + 36000000); // 1 day
-        const token = createToken(user.name, user.email);
+        res.clearCookie('auth_token', { 
+            httpOnly: true,
+            sameSite: 'Strict',  
+            // secure: process.env.NODE_ENV === 'production',
+        }) 
+        const token = createToken(user._id, user.email);
 
-        return res.cookie('auth_token', token, {
-            expires: expiryDate,
-            httpOnly: true, 
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'None',
-        }).status(200).send({message:"Successfully Login", name: user.name, email: user.email})
-    } catch (error) {
-        console.log(error);
+        res.cookie('auth_token', token, {
+            maxAge: 1 * 24 * 60 * 60 * 1000,
+            httpOnly: true,
+            sameSite: 'Strict',  
+            // secure: process.env.NODE_ENV === 'production',
+        })
+
+        return res.status(200).send({message:"Successfully Login", name: user.name, email: user.email})
+    } catch (error) { 
         return res.status(404).send({ message: "NOT_FOUND 404 login error", cause:error.message })
     }
 }

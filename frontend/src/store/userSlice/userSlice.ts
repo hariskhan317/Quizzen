@@ -1,45 +1,75 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { userSignup } from './asyncThunk'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { userSignup, userLogin, usetAuthStatus } from './asyncThunk';
 
 interface User {
     username: string;
     email: string;
     password: string;
-    // other user properties if necessary
-  }
-  
-  interface UserState {
+  // other user properties if necessary
+}
+
+interface UserState {
     isLogin: boolean;
-    currentUser: User[];
+    currentUser: User | null;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
-    error: string;
-  }
-  
-  const initialState: UserState = {
+    error: string | null;
+}
+
+const initialState: UserState = {
     isLogin: false,
-    currentUser: [],
+    currentUser: null,
     status: 'idle',
-    error: '',
-  };
+    error: null,
+};
 
 export const userSlice = createSlice({
-    name:'user',
+    name: 'user',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder
-            .addCase(userSignup.pending, (state) => {
-                state.status = "loading"
+        // signup
+        builder.addCase(userSignup.pending, (state) => {
+            state.status = 'loading';
+        })
+        .addCase(userSignup.fulfilled, (state, action: PayloadAction<User>) => {
+            state.status = 'succeeded';
+            state.currentUser = action.payload;
+            state.isLogin = true;
+            state.error = null;
+        })
+        .addCase(userSignup.rejected, (state, action) => {
+            state.status = 'failed';
+            state.error = action.error.message ?? 'Failed to signup';
+        });
+        // login
+        builder.addCase(userLogin.pending, (state) => {
+            state.status = 'loading';
+        })
+        .addCase(userLogin.fulfilled, (state, action: PayloadAction<User>) => {
+            state.status = 'succeeded';
+            state.currentUser = action.payload;
+            state.isLogin = true;
+            state.error = null;
+        })
+        .addCase(userLogin.rejected, (state, action) => {
+            state.status = 'failed';
+            state.error = action.error.message ?? 'Failed to login';
+        });
+        // authStatus
+        builder.addCase(usetAuthStatus.pending, (state) => {
+                state.status = 'loading';
             })
-            .addCase(userSignup.fulfilled, (state, action) => {
-                state.status = "succeeded"
-                state.currentUser.push(action.payload)
+            .addCase(usetAuthStatus.fulfilled, (state, action: PayloadAction<User>) => {
+                state.status = 'succeeded';
+                state.currentUser = action.payload;
+                state.isLogin = true;
+                state.error = null;
             })
-            .addCase(userSignup.rejected, (state, action) => {
-                state.status = "failed";
-                state.error = action.error.message;
-            })
+            .addCase(usetAuthStatus.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message ?? 'Failed to login';
+            });
     },
-})
+});
 
 export default userSlice.reducer;
