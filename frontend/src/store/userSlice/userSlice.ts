@@ -1,11 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { userSignup, userLogin, usetAuthStatus } from './asyncThunk';
+import { userSignup, userLogin, userAuthStatus, userLogout } from './asyncThunk';
 
 interface User {
     username: string;
     email: string;
-    password: string;
-  // other user properties if necessary
+    password: string; 
 }
 
 interface UserState {
@@ -56,19 +55,32 @@ export const userSlice = createSlice({
             state.error = action.error.message ?? 'Failed to login';
         });
         // authStatus
-        builder.addCase(usetAuthStatus.pending, (state) => {
-                state.status = 'loading';
-            })
-            .addCase(usetAuthStatus.fulfilled, (state, action: PayloadAction<User>) => {
-                state.status = 'succeeded';
-                state.currentUser = action.payload;
-                state.isLogin = true;
-                state.error = null;
-            })
-            .addCase(usetAuthStatus.rejected, (state, action) => {
-                state.status = 'failed';
-                state.error = action.error.message ?? 'Failed to login';
-            });
+        builder.addCase(userAuthStatus.pending, (state) => {
+            state.status = 'loading';
+        })
+        .addCase(userAuthStatus.fulfilled, (state, action: PayloadAction<User>) => {
+            state.status = 'succeeded';
+            state.currentUser = action.payload;
+            state.isLogin = true;
+            state.error = null;
+        })
+        .addCase(userAuthStatus.rejected, (state, action) => {
+            state.status = 'failed';
+            state.error = action.error.message ?? 'Failed to login';
+        });
+        // authStatus
+        builder.addCase(userLogout.pending, (state) => {
+            state.status = 'loading';
+        })
+        .addCase(userLogout.fulfilled, (state) => {
+            state.status = 'succeeded';
+            state.currentUser = null;
+            state.isLogin = false; 
+        })
+        .addCase(userLogout.rejected, (state, action) => {
+            state.status = 'failed';
+            state.error = action.error.message ?? 'Failed to login';
+        });
     },
 });
 

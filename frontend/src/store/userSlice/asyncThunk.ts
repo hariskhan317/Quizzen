@@ -36,10 +36,18 @@ export const userLogin = createAsyncThunk<User, LoginData>(
   }
 );
 
-export const usetAuthStatus = createAsyncThunk(
+export const userAuthStatus = createAsyncThunk(
   'user/authStatus',
   async () => {
     const response = await axios.get('/user/authStatus');
+    return response.data;
+  }
+);
+
+export const userLogout = createAsyncThunk(
+  'user/logout',
+  async () => {
+    const response = await axios.post('/user/logout');
     return response.data;
   }
 );

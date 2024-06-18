@@ -94,6 +94,27 @@ export const userLogin = async (req, res) => {
     }
 }
 
+export const userLogout = async (req, res) => {
+    try {
+        const user = await User.findById(res.locals.jwtData.id);
+        if (!user) {
+            return res.status(401).send("Cant Find the user")
+        }
+
+        if (user._id.toString() !== res.locals.jwtData.id) {
+            return res.status(401).send("Not the same user")
+        }
+        res.clearCookie('auth_token', { 
+            httpOnly: true,
+            sameSite: 'Strict',  
+            // secure: process.env.NODE_ENV === 'production',
+        }) 
+    
+        return res.status(200).send("Successfully Logout")
+    } catch (error) { 
+        return res.status(404).send({ message: "NOT_FOUND 404", cause:error.message })
+    }
+}
 
 // const status = {
 //   SUCCESS: 200,

@@ -1,8 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAppSelector } from '../store/hooks'; 
+import { userLogout } from '../store/userSlice/asyncThunk';
+import { useAppSelector, useAppDispatch } from '../store/hooks'; 
 const Header: React.FC = () => {
+  const dispatch = useAppDispatch();
   const { isLogin } = useAppSelector((state) => state.user)
+  const handleLogout = () => {
+    dispatch(userLogout())
+  }
   return (
     <header>
       <div className='flex justify-between '>
@@ -13,7 +18,7 @@ const Header: React.FC = () => {
           {isLogin ? (
             <>
               <NavLink to="/">Home</NavLink>
-              <button >Logout</button>
+              <button onClick={handleLogout} >Logout</button>
             </>) : (
               <>
                 <NavLink to="/login">Login</NavLink>
