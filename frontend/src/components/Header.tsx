@@ -9,20 +9,26 @@ const Header: React.FC = () => {
     dispatch(userLogout())
   }
   return (
-    <header>
+    <header className='shadow-lg border-b px-10 py-6'>
       <div className='flex justify-between '>
         <div>  
-          <h1>QuizZen</h1>
+          <button className='text-xl font medium bg-gray-300 px-5 py-2 rounded'>QuizZen</button>
         </div>
-        <div className='flex gap-10'>
+        <div className='flex gap-10 ' >
           {isLogin ? (
             <>
-              <NavLink to="/">Home</NavLink>
+              <button>
+                <NavLink className="block" to="/">Home</NavLink>
+              </button>
               <button onClick={handleLogout} >Logout</button>
             </>) : (
               <>
-                <NavLink to="/login">Login</NavLink>
-                <NavLink to="/signup">Signup</NavLink>
+                <button>
+                  <NavLink to="/login">Login</NavLink>
+                </button>
+                <button>
+                  <NavLink to="/signup">Signup</NavLink>
+                </button>
               </> )}
           </div>
       </div>
