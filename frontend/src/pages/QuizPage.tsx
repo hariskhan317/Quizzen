@@ -18,22 +18,23 @@ const QuizPage = () => {
             navigate('/login');
         }
     }, [isLogin, navigate, dispatch]);
-    
-    useEffect(() => {
+  
+    const handleStartQuiz = () => {
       dispatch(getQuizQuestion());
       console.log(quiz)
-    }, [dispatch]);
-
+    }
+  
     // Check if quiz is null or undefined, render loading if it is
     if (!quiz) {
       return <div><img className='h-20 w-20 mx-auto mt-40' src={loaderGif} alt="Loading..." /></div>;
     }
-
+  
     return (
         <div>
-            {quiz.map((item, quizIndex) => (
-              <QuizComponent item={item} quizIndex={quizIndex} />
-            ))}
+
+          {quiz.map((item, quizIndex) => (
+            <QuizComponent item={item} quizIndex={quizIndex} />
+          ))}
         </div>
     );
 }

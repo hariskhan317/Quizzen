@@ -12,8 +12,8 @@ export const generateQuestion = async (req, res) => {
       apiKey: process.env.OPENAI_SECRET
     });
 
-    const quizQuestion = `Generate a multiple-choice question on React JS with 4 choices.
-      Provide the question, 4 choices, and indicate the correct answer.
+    const quizQuestion = `Generate 10 unique questions on React JS with 4 choices each. Do not repeat any questions.
+    
       Format:
       Question: <question>
       Choices:
@@ -29,29 +29,34 @@ export const generateQuestion = async (req, res) => {
   
     }); 
 
-    const response = completion.choices[0].message.content;
+    const response = completion.choices[0].message.content; 
 
-    const lines = response.split('\n').map(line => line.trim()).filter(line => line);
-    const questionLine = lines.find((line) => line.startsWith("Question"));
-    const choices = lines.filter(line => line.startsWith("A.") || line.startsWith("B.") || line.startsWith("C.") || line.startsWith("D."))
-    const correctAnswerLine = lines.find((line) => line.startsWith("Correct Answer"))
+    const questionBlocks = response.split('\n\n').map(block => block.trim()).filter(block => block);
 
-    const question = questionLine.replace("Question: ", "");
-    const correctAnswer = correctAnswerLine.replace("Correct Answer: ", "");
-    const formattedChoices = choices.map(choice => choice.replace(/^[A-D]\. /, ''));
+    const questionsData = questionBlocks.map(block => {
+      const lines = block.split('\n').map(line => line.trim()).filter(line => line);
 
-    const responseData = {
-      question,
-      choices: [
-        formattedChoices[0],
-        formattedChoices[1],
-        formattedChoices[2],
-        formattedChoices[3],
-      ],
-      correctAnswer,
-    }
+      const questionLine = lines.find(line => line.startsWith("Question"));
+      const choices = lines.filter(line => line.startsWith("A.") || line.startsWith("B.") || line.startsWith("C.") || line.startsWith("D."));
+      const correctAnswerLine = lines.find(line => line.startsWith("Correct Answer"));
 
-    user.quiz.push(responseData)
+      const question = questionLine.replace("Question: ", "");
+      const correctAnswer = correctAnswerLine.replace("Correct Answer: ", "");
+      const formattedChoices = choices.map(choice => choice.replace(/^[A-D]\. /, ''));
+
+      return {
+        question,
+        choices: [
+          formattedChoices[0],
+          formattedChoices[1],
+          formattedChoices[2],
+          formattedChoices[3],
+        ],
+        correctAnswer,
+      };
+    });
+
+    user.quiz.push(...questionsData);
 
     await user.save();
  

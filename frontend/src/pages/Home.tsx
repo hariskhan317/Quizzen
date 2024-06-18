@@ -1,31 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { QuizModelCreator } from '../components/QuizModelCreator'
 import { userAuthStatus } from '../store/userSlice/asyncThunk';
 
 const Home: React.FC = () => {
   const { isLogin, currentUser } = useAppSelector((state) => state.user);
+  const [showModel, setShowModel] = useState(false);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(userAuthStatus());
     console.log({currentUser})
   }, [])
   
-    return (
-      <div className="min-h-[80vh] flex flex-col">
+  const showModelHandle = () => {
+    setShowModel(true)
+  }
+
+  return (
+      <div className="max-h-screen flex flex-col">
         {isLogin ? (
           <>
-            <header className="bg-gray-300 text-black p-6 text-center">
-              <h1 className="text-4xl font-bold capitalize">Welcome Back, {currentUser?.name}!</h1>
-              <p className="mt-2 text-lg">Ready to test your knowledge today?</p>
+            <header className="bg-gray-500 text-black p-6 text-center">
+              <h1 className="text-4xl text-white font-bold capitalize">Welcome Back, {currentUser?.name}!</h1>
+              <p className="mt-2 text-gray-100 text-lg">Ready to test your knowledge today?</p>
             </header>
             <main className="grid lg:grid-cols-2 gap-4 justify-items-center">
                 <section className="my-8 ">
                     <h2 className="text-3xl font-semibold">Take a New Quiz</h2>
                     <p className="mt-4 text-lg">Select a category and start a new quiz now:</p>
-                    <Link to="/quizzes">
-                        <button className="mt-6 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Start Quiz</button>
-                    </Link>
+                    <button onClick={showModelHandle} className="mt-6 bg-gray-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Start Quiz</button>
                 </section> 
                 <section className="my-8">
                     <h2 className="text-3xl font-semibold">Recent Activity</h2>
@@ -36,10 +41,17 @@ const Home: React.FC = () => {
                     </ul>
                     <div className="">
                         <Link to="/activity">
-                            <button className="mt-6 bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700 transition duration-300">See All Activity</button>
+                            <button className="mt-6 bg-gray-500 text-white py-2 px-4 rounded hover:bg-purple-700 transition duration-300">See All Activity</button>
                         </Link>
                     </div>
                 </section>
+                {/* Model */}
+            {showModel &&
+              <>
+                <div className="bg-black bg-opacity-[90%] w-full h-full absolute top-0 left-0"></div>
+                <QuizModelCreator />
+              </>
+            }
             </main> 
           </>
         ) : (
