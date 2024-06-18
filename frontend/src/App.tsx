@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Header from './components/Header';
 import Quizpage from './pages/QuizPage'; 
 import Footer from './components/Footer'
+import ResultPage from './pages/ResultPage'
 
 function App() { 
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path='/quizpage' element={<Quizpage />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/result' element={<ResultPage score={20} totalQuestions={10} />} />
         </Routes>
       </div>
       <Footer /> 

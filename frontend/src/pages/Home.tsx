@@ -4,42 +4,77 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { userAuthStatus } from '../store/userSlice/asyncThunk';
 
 const Home: React.FC = () => {
-  const { isLogin } = useAppSelector((state) => state.user);
+  const { isLogin, currentUser } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(userAuthStatus());
+    console.log({currentUser})
   }, [])
   
     return (
-      <div className="min-h-screen flex flex-col">
-          <header className="bg-gray-300 text-black rounded p-6 text-center">
-              <h1 className="text-4xl font-bold">Welcome to Quizzen</h1>
-              <p className="mt-2 text-lg">Test your knowledge with our fun and interactive quizzes!</p>
-          </header>
-          <main className="flex-grow p-6 bg-gray-100">
-              <section className="my-8 text-center">
-                  <h2 className="text-3xl font-semibold">Join Us Today!</h2>
-                  <p className="mt-4 text-lg">Sign up now to start taking quizzes and track your progress. Challenge yourself and your friends to see who knows more!</p>
-                  <div className="mt-6 space-x-4">
-                      <Link to="/signup">
-                          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Sign Up</button>
-                      </Link>
-                      <Link to="/login">
-                          <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Log In</button>
-                      </Link>
-                  </div>
-              </section>
-              <section className="my-8">
-                  <h2 className="text-3xl font-semibold text-center">Features</h2>
-                  <ul className="mt-4 space-y-2 text-lg list-disc list-inside  grid grid-cols-2 justify-items-center md:px-40">
-                      <li>Wide variety of quizzes</li>
-                      <li>Track your progress</li>
-                      <li>Compete with friends</li>
-                      <li>Earn badges and rewards</li>
-                  </ul>
-              </section> 
-          </main>
+      <div className="min-h-[80vh] flex flex-col">
+        {isLogin ? (
+          <>
+            <header className="bg-gray-300 text-black p-6 text-center">
+              <h1 className="text-4xl font-bold capitalize">Welcome Back, {currentUser?.name}!</h1>
+              <p className="mt-2 text-lg">Ready to test your knowledge today?</p>
+            </header>
+            <main className="grid lg:grid-cols-2 gap-4 justify-items-center">
+                <section className="my-8 ">
+                    <h2 className="text-3xl font-semibold">Take a New Quiz</h2>
+                    <p className="mt-4 text-lg">Select a category and start a new quiz now:</p>
+                    <Link to="/quizzes">
+                        <button className="mt-6 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Start Quiz</button>
+                    </Link>
+                </section> 
+                <section className="my-8">
+                    <h2 className="text-3xl font-semibold">Recent Activity</h2>
+                    <ul className="mt-4 space-y-2 text-lg list-disc list-inside">
+                        <li>Quiz on General Knowledge: 85%</li>
+                        <li>Quiz on Science: 90%</li>
+                        <li>Quiz on History: 75%</li>
+                    </ul>
+                    <div className="">
+                        <Link to="/activity">
+                            <button className="mt-6 bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700 transition duration-300">See All Activity</button>
+                        </Link>
+                    </div>
+                </section>
+            </main> 
+          </>
+        ) : (
+            <>
+              <header className="bg-gray-300 text-black rounded p-6 text-center">
+                <h1 className="text-4xl font-bold">Welcome to Quizzen</h1>
+                <p className="mt-2 text-lg">Test your knowledge with our fun and interactive quizzes!</p>
+              </header>
+              <main className="flex-grow p-6 bg-gray-100">
+                    <section className="my-8 text-center">
+                        <h2 className="text-3xl font-semibold">Join Us Today!</h2>
+                        <p className="mt-4 text-lg">Sign up now to start taking quizzes and track your progress. Challenge yourself and your friends to see who knows more!</p>
+                        <div className="mt-6 space-x-4">
+                            <Link to="/signup">
+                                <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Sign Up</button>
+                            </Link>
+                            <Link to="/login">
+                                <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Log In</button>
+                            </Link>
+                        </div>
+                    </section>
+                    <section className="my-8">
+                        <h2 className="text-3xl font-semibold text-center">Features</h2>
+                        <ul className="mt-4 space-y-2 text-lg list-disc list-inside  grid grid-cols-2 justify-items-center md:px-40">
+                            <li>Wide variety of quizzes</li>
+                            <li>Track your progress</li>
+                            <li>Compete with friends</li>
+                            <li>Earn badges and rewards</li>
+                        </ul>
+                    </section> 
+              </main>
+            </>
+          )}
       </div>
+ 
   );
 }
 

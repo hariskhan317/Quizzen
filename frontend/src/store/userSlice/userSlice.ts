@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { userSignup, userLogin, userAuthStatus, userLogout } from './asyncThunk';
-
+    
 interface User {
-    username: string;
+    name: string;
     email: string;
     password: string; 
 }
