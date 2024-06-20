@@ -12,7 +12,7 @@ const Header: React.FC = () => {
     <header className="shadow-lg border-b px-10 py-6">
       <div className="flex justify-between items-center">
         <div>
-          <button className="text-xl text-white font-semibold bg-gray-500 px-5 py-2 rounded">
+          <button className="text-xl text-white font-semibold bg-gray-800 px-5 py-2 rounded">
             <NavLink to="/">QuizZen</NavLink>
           </button>
         </div>
