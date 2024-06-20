@@ -22,7 +22,7 @@ const Home: React.FC = () => {
       <div className="max-h-screen flex flex-col">
         {isLogin ? (
           <>
-            <header className="bg-gray-500 text-black p-6 text-center">
+            <header className="bg-gray-800 rounded text-black p-6 text-center">
               <h1 className="text-4xl text-white font-bold capitalize">Welcome Back, {currentUser?.name}!</h1>
               <p className="mt-2 text-gray-100 text-lg">Ready to test your knowledge today?</p>
             </header>
@@ -30,7 +30,7 @@ const Home: React.FC = () => {
                 <section className="my-8 ">
                     <h2 className="text-3xl font-semibold">Take a New Quiz</h2>
                     <p className="mt-4 text-lg">Select a category and start a new quiz now:</p>
-                    <button onClick={showModelHandle} className="mt-6 bg-gray-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Start Quiz</button>
+                    <button onClick={showModelHandle} className="mt-6 bg-gray-800 text-white py-2 px-4 rounded hover:bg-gray-900 transition duration-300">Start Quiz</button>
                 </section> 
                 <section className="my-8">
                     <h2 className="text-3xl font-semibold">Recent Activity</h2>
@@ -41,22 +41,22 @@ const Home: React.FC = () => {
                     </ul>
                     <div className="">
                         <Link to="/activity">
-                            <button className="mt-6 bg-gray-500 text-white py-2 px-4 rounded hover:bg-purple-700 transition duration-300">See All Activity</button>
+                            <button className="mt-6 bg-gray-800 text-white py-2 px-4 rounded hover:bg-gray-900 transition duration-300">See All Activity</button>
                         </Link>
                     </div>
                 </section>
                 {/* Model */}
             {showModel &&
               <>
-                <div className="bg-black bg-opacity-[90%] w-full h-full absolute top-0 left-0"></div>
-                <QuizModelCreator />
+                <div onClick={() => {setShowModel(false)}} className="bg-black bg-opacity-[90%] w-full h-full absolute top-0 left-0"></div>
+                <QuizModelCreator setShowModel={setShowModel} />
               </>
             }
             </main> 
           </>
         ) : (
             <>
-              <header className="bg-gray-300 text-black rounded p-6 text-center">
+              <header className="bg-gray-800 text-black rounded p-6 text-center">
                 <h1 className="text-4xl font-bold">Welcome to Quizzen</h1>
                 <p className="mt-2 text-lg">Test your knowledge with our fun and interactive quizzes!</p>
               </header>
