@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { postQuizQuestion } from '../store/quizSlice/asyncThunk';
-import { useAppDispatch } from '../store/hooks'; 
+import { useAppDispatch } from '../store/hooks';
 import { IoCloseSharp } from "react-icons/io5";
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import loaderGif from '../assets/load-8510_256.gif';
 
 interface QuizModelCreatorProps {
   setShowModel: (show: boolean) => void;
@@ -10,7 +11,7 @@ interface QuizModelCreatorProps {
  
 export const QuizModelCreator: React.FC<QuizModelCreatorProps> = ({setShowModel}) => {
   const dispatch = useAppDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [topic, setTopic] = useState<string>('');
   const [number, setNumber] = useState<number>(0);
 
@@ -18,6 +19,7 @@ export const QuizModelCreator: React.FC<QuizModelCreatorProps> = ({setShowModel}
     e.preventDefault();
     const data = { topic, number };
     dispatch(postQuizQuestion(data));
+    return navigate('/quizpage')
   };
 
   return (

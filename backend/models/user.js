@@ -1,20 +1,5 @@
 import mongoose from "mongoose";
 
-const quizSchema = new mongoose.Schema({
-    question: {
-        type: String,
-        required: true
-    },
-    choices: {
-        type: [String],
-        required: true
-    },
-    correctAnswer: {
-        type: String,
-        required: true
-    },
-})
-
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -29,7 +14,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    quiz: [quizSchema]
+    quizzes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Quiz'
+        }
+    ]
 })
 
 export const User = mongoose.model('User', userSchema);

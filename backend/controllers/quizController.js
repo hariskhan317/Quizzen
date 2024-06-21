@@ -1,8 +1,37 @@
 import { User } from '../models/user.js'; 
+import { Quiz } from '../models/quiz.js'; 
 import OpenAI from "openai";
+
+export const getAllQuizQuestion = async (req, res) => {
+  try {
+    const user = await User.findById(res.locals.jwtData.id)
+    if (!user) {
+      return res.status(401).send("Cant Find the user")
+    }
+
+    if (user._id.toString() !== res.locals.jwtData.id) {
+        return res.status(401).send("Not the same user")
+    }
+
+    const quiz = await Quiz.find();
+
+    if (user._id !== quiz.user) {
+      return res.status(401).send("Not the same user")
+    }
+    
+
+      
+    return res.status(200).send({ status: 200, quiz });
+  
+  } catch (error) {
+    console.error('Error:', error);
+    return res.status(404).send({ message: 'NOT_FOUND 404 ERROR', cause: error.message });
+  }
+} 
 
 export const generateQuestion = async (req, res) => {
   try { 
+    const { topic, number } = req.body;
     const user = await User.findById(res.locals.jwtData.id);
     if (!user) {
         return res.status(401).send("Can't find the user");
@@ -12,7 +41,7 @@ export const generateQuestion = async (req, res) => {
       apiKey: process.env.OPENAI_SECRET
     });
 
-    const quizQuestion = `Generate 10 unique questions on React JS with 4 choices each. Do not repeat any questions.
+    const quizQuestion = `Generate ${number} unique questions on ${topic} with 4 choices each. Do not repeat any questions.
     
       Format:
       Question: <question>
@@ -21,7 +50,7 @@ export const generateQuestion = async (req, res) => {
       B. <choice 2>
       C. <choice 3>
       D. <choice 4>
-      Correct Answer: <correct answer letter>`;
+      Correct Answer: <write the complete correct choice>`;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -41,7 +70,7 @@ export const generateQuestion = async (req, res) => {
       const correctAnswerLine = lines.find(line => line.startsWith("Correct Answer"));
 
       const question = questionLine.replace("Question: ", "");
-      const correctAnswer = correctAnswerLine.replace("Correct Answer: ", "");
+      const correctAnswer = correctAnswerLine.replace(/^Correct Answer: [A-D]\. /, "");
       const formattedChoices = choices.map(choice => choice.replace(/^[A-D]\. /, ''));
 
       return {
@@ -56,11 +85,20 @@ export const generateQuestion = async (req, res) => {
       };
     });
 
-    user.quiz.push(...questionsData);
+    const quiz = new Quiz({
+      topic,
+      number,
+      questions: questionsData,
+      user: user._id
+    })
+
+    await quiz.save();
+
+    user.quizzes.push(quiz.id);
 
     await user.save();
  
-    res.status(200).send({message: 'Successfull', quiz: user.quiz});
+    res.status(200).send({status: 200, message:"Successfully created", quiz});
   
   } catch (error) {
     console.error('Error:', error);

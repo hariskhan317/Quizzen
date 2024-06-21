@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import { verifyToken } from '../utils/tokenManager.js';
-import { generateQuestion } from '../controllers/quizController.js'
+import { generateQuestion, getAllQuizQuestion} from '../controllers/quizController.js'
  
 const quizRouter = Router();
 
-quizRouter.get('/new', verifyToken, generateQuestion)
-
+quizRouter.post('/new', verifyToken, generateQuestion)
+quizRouter.get('/get-quizzes', verifyToken, getAllQuizQuestion)
 
 export default quizRouter;

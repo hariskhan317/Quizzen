@@ -9,7 +9,7 @@ const Header: React.FC = () => {
     dispatch(userLogout())
   }
   return (
-    <header className="shadow-lg border-b px-10 py-6">
+    <header className="shadow-lg border-b px-10 py-5">
       <div className="flex justify-between items-center">
         <div>
           <button className="text-xl text-white font-semibold bg-gray-800 px-5 py-2 rounded">

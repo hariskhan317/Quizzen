@@ -12,11 +12,11 @@ const ResultPage: React.FC<props> = ({ score, totalQuestions }) => {
     const percentage = (score / totalQuestions) * 100;
     const navigate = useNavigate();
 
-    useEffect(() => { 
-        if (!isLogin) {
-            navigate('/login');
-        }
-    }, [isLogin]);
+    // useEffect(() => { 
+    //     if (!isLogin) {
+    //         navigate('/login');
+    //     }
+    // }, [isLogin]);
 
     return (
         <div className="min-h-[80vh] flex flex-col items-center justify-center bg-gray-100">

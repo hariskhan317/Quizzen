@@ -56,7 +56,7 @@ const Home: React.FC = () => {
           </>
         ) : (
             <>
-              <header className="bg-gray-800 text-black rounded p-6 text-center">
+              <header className="bg-gray-800 text-white rounded p-6 text-center">
                 <h1 className="text-4xl font-bold">Welcome to Quizzen</h1>
                 <p className="mt-2 text-lg">Test your knowledge with our fun and interactive quizzes!</p>
               </header>
