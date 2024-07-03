@@ -1,27 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { postQuizQuestion, getQuizQuestion } from './asyncThunk'
+import { postQuizQuestion, getAllQuizzes, updateQuizResult } from './asyncThunk'
 
 interface Question {
     question: string;
-    choices: string[]; // Changed to string[]
-    correctAnswer: string;
+    choices: string[];
+    correctAnswer: string; 
 }
 interface Quiz {
     topic: string;
     number: number;
-    questions: Question[];  
+    questions: Question[];
 }
 
 interface QuizState {
-    quiz:  Quiz[];
+    quiz: Quiz | null; // Change to a single Quiz object or null
     status: 'idle' | 'loading' | 'succeeded' | 'failed'; 
     error: string | null;
 }
 
 const initialState: QuizState = {
-    quiz: [], 
+    quiz: null, // Initialize as null
     status: 'idle', 
-    error: null,
+    error: null, 
 }
 
 export const quizSlice = createSlice({
@@ -33,7 +33,7 @@ export const quizSlice = createSlice({
             .addCase(postQuizQuestion.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(postQuizQuestion.fulfilled, (state, action: PayloadAction<Quiz[]>) => {
+            .addCase(postQuizQuestion.fulfilled, (state, action: PayloadAction<Quiz>) => {
                 state.status = 'succeeded'; 
                 state.quiz = action.payload;
             })
@@ -42,17 +42,28 @@ export const quizSlice = createSlice({
                 state.error = action.error.message ?? 'Failed to get quiz question';
             }) 
         builder
-            .addCase(getQuizQuestion.pending, (state) => {
+            .addCase(getAllQuizzes.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(getQuizQuestion.fulfilled, (state, action: PayloadAction<Quiz[]>) => {
+            .addCase(getAllQuizzes.fulfilled, (state, action: PayloadAction<Quiz>) => {
                 state.status = 'succeeded'; 
                 state.quiz = action.payload;
             })
-            .addCase(getQuizQuestion.rejected, (state, action) => {
+            .addCase(getAllQuizzes.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message ?? 'Failed to get quiz question';
             }) 
+        builder
+            .addCase(updateQuizResult.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(updateQuizResult.fulfilled, (state) => {
+                state.status = 'succeeded';  
+            })
+            .addCase(updateQuizResult.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message ?? 'Failed to get quiz question';
+            })
     },
 });
 

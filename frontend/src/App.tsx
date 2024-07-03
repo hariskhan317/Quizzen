@@ -17,7 +17,7 @@ function App() {
           <Route path='/quizpage' element={<Quizpage />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/result' element={<ResultPage score={20} totalQuestions={10} />} />
+          <Route path='/result-page' element={<ResultPage />} />
         </Routes>
       </div>
       <Footer /> 

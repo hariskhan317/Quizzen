@@ -6,6 +6,10 @@ interface quizQuestion{
     topic: string;
     number: number;
 }
+
+interface quizResult {
+    selectedOptions: [string];
+}
 interface Quiz{
     question: string;
     choice: [string];
@@ -17,7 +21,22 @@ export const postQuizQuestion = createAsyncThunk<Quiz, quizQuestion>('quiz/postQ
     return response.data.quiz;  
 })
 
-export const getQuizQuestion = createAsyncThunk<Quiz, quizQuestion>('quiz/getQuizQuestion', async () => {
+export const getAllQuizzes = createAsyncThunk<Quiz, quizQuestion>('quiz/getAllQuizzes', async () => {
     const response = await axios.get('/quiz/get-quizzes');
+    console.log(response)
     return response.data.quiz;  
 })
+
+export const updateQuizResult = createAsyncThunk(
+    'quiz/updateQuizResult',
+    async (data) => {
+        try { 
+            const response = await axios.post('/quiz/quiz-result', data);
+            return response.data.quiz;  
+    
+        } catch (error) {
+            console.error('Error updating quiz result:', error);
+            throw error; // Ensure errors are propagated for proper error handling in Redux
+        }
+    }
+);

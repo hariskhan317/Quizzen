@@ -11,7 +11,6 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     dispatch(userAuthStatus());
-    console.log({currentUser})
   }, [])
   
   const showModelHandle = () => {

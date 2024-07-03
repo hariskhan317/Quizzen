@@ -15,12 +15,7 @@ export const getAllQuizQuestion = async (req, res) => {
 
     const quiz = await Quiz.find();
 
-    if (user._id !== quiz.user) {
-      return res.status(401).send("Not the same user")
-    }
-    
-
-      
+   
     return res.status(200).send({ status: 200, quiz });
   
   } catch (error) {
@@ -100,6 +95,50 @@ export const generateQuestion = async (req, res) => {
  
     res.status(200).send({status: 200, message:"Successfully created", quiz});
   
+  } catch (error) {
+    console.error('Error:', error);
+    return res.status(404).send({ message: 'NOT_FOUND 404 ERROR', cause: error.message });
+  }
+};
+
+export const postQuizResult = async (req, res) => {
+  try {
+    const { selectedOptions, id } = req.body;
+
+    const quiz = await Quiz.findById(id);
+
+    quiz.questions.forEach((question, index) => {
+      if (Array.isArray(selectedOptions[index])) {
+        // Clear existing selectedOptions
+        quiz.questions[index].selectedOptions = [];
+
+        // Populate selectedOptions with the provided values
+        selectedOptions[index].forEach(option => {
+          quiz.questions[index].selectedOptions.push({ option });
+        });
+      } else if (typeof selectedOptions[index] === 'string') {
+        // Handle the case where selectedOptions[index] is a single string
+        quiz.questions[index].selectedOptions = [{ option: selectedOptions[index] }];
+      }
+    });
+
+    let score = 0;
+    quiz.questions.forEach((question, index) => {
+      const selected = quiz.questions[index].selectedOptions.map(opt => opt.option);
+      const correct = quiz.questions[index].correctAnswer;
+
+      // Assuming correctAnswer is an array of strings
+      if (selected.sort().toString() === correct.sort().toString()) {
+        score++;
+      }
+    });
+
+    quiz.score = score;
+
+    await quiz.save();
+    console.log(quiz)
+    res.status(200).json({ quiz });
+
   } catch (error) {
     console.error('Error:', error);
     return res.status(404).send({ message: 'NOT_FOUND 404 ERROR', cause: error.message });
