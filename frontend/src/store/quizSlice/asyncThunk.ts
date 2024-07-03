@@ -17,13 +17,17 @@ interface Quiz{
 }
 
 export const postQuizQuestion = createAsyncThunk<Quiz, quizQuestion>('quiz/postQuizQuestion', async (data:quizQuestion) => {
-    const response = await axios.post('/quiz/new',data);
+    const response = await axios.post('/quiz/new', data);
     return response.data.quiz;  
 })
 
+export const getSingleQuiz = createAsyncThunk('quiz/getQuiz', async (id) => {
+    const response = await axios.get(`/quiz/get-quiz/${id}`);  
+    return response.data;  
+})
+
 export const getAllQuizzes = createAsyncThunk<Quiz, quizQuestion>('quiz/getAllQuizzes', async () => {
-    const response = await axios.get('/quiz/get-quizzes');
-    console.log(response)
+    const response = await axios.get('/quiz/get-quizzes'); 
     return response.data.quiz;  
 })
 

@@ -39,7 +39,7 @@ const Home: React.FC = () => {
                         <li>Quiz on History: 75%</li>
                     </ul>
                     <div className="">
-                        <Link to="/activity">
+                        <Link to="/result">
                             <button className="mt-6 bg-gray-800 text-white py-2 px-4 rounded hover:bg-gray-900 transition duration-300">See All Activity</button>
                         </Link>
                     </div>

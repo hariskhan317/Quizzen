@@ -6,6 +6,7 @@ import Header from './components/Header';
 import Quizpage from './pages/QuizPage'; 
 import Footer from './components/Footer'
 import ResultPage from './pages/ResultPage'
+import ResultQuestion from './components/ResultQuestion'
 
 function App() { 
   return (
@@ -17,7 +18,8 @@ function App() {
           <Route path='/quizpage' element={<Quizpage />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/result-page' element={<ResultPage />} />
+          <Route path='/result' element={<ResultPage />} />
+          <Route path='/quiz-question/:id' element={<ResultQuestion />} />
         </Routes>
       </div>
       <Footer /> 

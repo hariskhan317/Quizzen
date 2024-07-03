@@ -3,7 +3,7 @@ import { postQuizQuestion } from '../store/quizSlice/asyncThunk';
 import { useAppDispatch } from '../store/hooks';
 import { IoCloseSharp } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
-import loaderGif from '../assets/load-8510_256.gif';
+// import loaderGif from '../assets/load-8510_256.gif';
 
 interface QuizModelCreatorProps {
   setShowModel: (show: boolean) => void;
