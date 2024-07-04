@@ -40,7 +40,7 @@ export const userSignup = async(req, res) => {
         res.clearCookie('auth_token', { 
             httpOnly: true,
             sameSite: 'Strict',  
-            // secure: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV === 'production',
         })
         const token = createToken(user._id, user.email);
     
@@ -48,7 +48,7 @@ export const userSignup = async(req, res) => {
             maxAge: 1 * 24 * 60 * 60 * 1000,
             httpOnly: true,
             sameSite: 'Strict',  
-            // secure: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV === 'production',
         })
         
         await user.save();
@@ -77,7 +77,7 @@ export const userLogin = async (req, res) => {
         res.clearCookie('auth_token', { 
             httpOnly: true,
             sameSite: 'Strict',  
-            // secure: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV === 'production',
         }) 
         const token = createToken(user._id, user.email);
 
@@ -85,7 +85,7 @@ export const userLogin = async (req, res) => {
             maxAge: 1 * 24 * 60 * 60 * 1000,
             httpOnly: true,
             sameSite: 'Strict',  
-            // secure: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV === 'production',
         })
 
         return res.status(200).send({message:"Successfully Login", name: user.name, email: user.email})
@@ -107,7 +107,7 @@ export const userLogout = async (req, res) => {
         res.clearCookie('auth_token', { 
             httpOnly: true,
             sameSite: 'Strict',  
-            // secure: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV === 'production',
         }) 
     
         return res.status(200).send("Successfully Logout")

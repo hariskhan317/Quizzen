@@ -3,11 +3,12 @@ import { config } from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import appRouter from './routes/index.js'
-
+// https://quizzen-frontend.vercel.app/
+// origin: ["http://localhost:5173"],
 config();
 const app = express();
 app.use(cors({
-    origin: ["http://localhost:5173"],
+    origin: ["https://quizzen-frontend.vercel.app"],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
 }));
