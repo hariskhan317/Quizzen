@@ -7,8 +7,9 @@ import { store } from './store/store.ts'
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
+//axios.defaults.baseURL = "http://localhost:8000/api/v1";
+axios.defaults.baseURL = "https://quizzen-backend.vercel.app/api/v1";
 
-axios.defaults.baseURL = "http://localhost:8000/api/v1";
 axios.defaults.withCredentials = true;
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
