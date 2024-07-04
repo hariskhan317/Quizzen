@@ -134,7 +134,7 @@ export const postQuizResult = async (req, res) => {
 
     quiz.questions.forEach((question, index) => {
       if (Array.isArray(selectedOptions[index])) {
-        // Clear existing selectedOptions
+        
         quiz.questions[index].selectedOptions = [];
 
         // Populate selectedOptions with the provided values
