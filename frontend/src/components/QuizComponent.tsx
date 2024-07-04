@@ -49,8 +49,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ setSelectedOptions
             {choice}
           </button>
         ))}
-      </div>
-      <h1 className='text-base font-normal py-10'>Correct Answer: {item?.correctAnswer}</h1>
+      </div> 
     </div>
   );
 };

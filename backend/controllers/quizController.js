@@ -2,6 +2,31 @@ import { User } from '../models/user.js';
 import { Quiz } from '../models/quiz.js'; 
 import OpenAI from "openai";
 
+export const getQuiz = async (req, res) => {
+  try {
+    const user = await User.findById(res.locals.jwtData.id)
+    if (!user) {
+      return res.status(401).send("Cant Find the user")
+    }
+  
+    if (user._id.toString() !== res.locals.jwtData.id) {
+        return res.status(401).send("Not the same user")
+    }
+  
+    const { id } = req.params;
+    const quiz = await Quiz.findById(id);
+  
+    if (!quiz) {
+      return res.status(401).send("Can't find the Quiz");
+    } 
+    return res.status(200).send(quiz);
+  }
+  catch (error) {
+    console.error('Error:', error);
+    return res.status(404).send({ message: 'NOT_FOUND 404 ERROR', cause: error.message });
+  }
+}
+
 export const getAllQuizQuestion = async (req, res) => {
   try {
     const user = await User.findById(res.locals.jwtData.id)
@@ -16,7 +41,7 @@ export const getAllQuizQuestion = async (req, res) => {
     const quiz = await Quiz.find();
 
    
-    return res.status(200).send({ status: 200, quiz });
+    return res.status(200).send({quiz});
   
   } catch (error) {
     console.error('Error:', error);
@@ -136,7 +161,6 @@ export const postQuizResult = async (req, res) => {
     quiz.score = score;
 
     await quiz.save();
-    console.log(quiz)
     res.status(200).json({ quiz });
 
   } catch (error) {
