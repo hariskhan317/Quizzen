@@ -54,31 +54,30 @@ export const generateQuestion = async (req, res) => {
     const { topic, number } = req.body;
     const user = await User.findById(res.locals.jwtData.id);
     if (!user) {
-        return res.status(401).send("Can't find the user");
+      return res.status(401).send("Can't find the user");
     }
-      
+
     const openai = new OpenAI({
       apiKey: process.env.OPENAI_SECRET
     });
 
     const quizQuestion = `Generate ${number} unique questions on ${topic} with 4 choices each. Do not repeat any questions.
-    
-      Format:
-      Question: <question>
-      Choices:
-      A. <choice 1>
-      B. <choice 2>
-      C. <choice 3>
-      D. <choice 4>
-      Correct Answer: <write the complete correct choice>`;
+
+Format:
+Question: <question>
+Choices:
+A. <choice 1>
+B. <choice 2>
+C. <choice 3>
+D. <choice 4>
+Correct Answer: <write the complete correct choice>`;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [{ role: "user", content: quizQuestion }],
-  
-    }); 
+    });
 
-    const response = completion.choices[0].message.content; 
+    const response = completion.choices[0].message.content;
 
     const questionBlocks = response.split('\n\n').map(block => block.trim()).filter(block => block);
 
@@ -110,18 +109,24 @@ export const generateQuestion = async (req, res) => {
       number,
       questions: questionsData,
       user: user._id
-    })
+    });
 
     await quiz.save();
 
     user.quizzes.push(quiz.id);
 
     await user.save();
- 
-    res.status(200).send({status: 200, message:"Successfully created", quiz});
-  
+
+    res.status(200).send({ status: 200, message: "Successfully created", quiz });
+
   } catch (error) {
     console.error('Error:', error);
+
+    // Specific handling for 500 errors
+    if (error.response && error.response.status === 500) {
+      return res.status(500).send({ message: 'INTERNAL_SERVER_ERROR 500 ERROR', cause: error.message });
+    }
+
     return res.status(404).send({ message: 'NOT_FOUND 404 ERROR', cause: error.message });
   }
 };
