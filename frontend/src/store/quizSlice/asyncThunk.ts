@@ -22,7 +22,7 @@ interface Selection{
     id: string;
 }
 
-export const postQuizQuestion = createAsyncThunk<Quiz, quizQuestion>('quiz/postQuizQuestion', async (data:quizQuestion) => {
+export const postQuizQuestion = createAsyncThunk('quiz/postQuizQuestion', async (data:quizQuestion) => {
     const response = await axios.post('/quiz/new', data);
     return response.data.quiz;  
 })
@@ -32,7 +32,7 @@ export const getSingleQuiz = createAsyncThunk('quiz/getQuiz', async (id:idType) 
     return response.data;  
 })
 
-export const getAllQuizzes = createAsyncThunk<Quiz>('quiz/getAllQuizzes', async () => {
+export const getAllQuizzes = createAsyncThunk('quiz/getAllQuizzes', async () => {
     const response = await axios.get('/quiz/get-quizzes'); 
     return response.data.quiz;  
 })
