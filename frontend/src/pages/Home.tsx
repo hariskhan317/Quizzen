@@ -11,7 +11,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     dispatch(userAuthStatus());
-  }, [])
+  }, [dispatch])
   
   const showModelHandle = () => {
     setShowModel(true)

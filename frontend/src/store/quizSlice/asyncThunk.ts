@@ -32,7 +32,7 @@ export const getSingleQuiz = createAsyncThunk('quiz/getQuiz', async (id:idType) 
     return response.data;  
 })
 
-export const getAllQuizzes = createAsyncThunk<Quiz, quizQuestion>('quiz/getAllQuizzes', async () => {
+export const getAllQuizzes = createAsyncThunk<Quiz>('quiz/getAllQuizzes', async () => {
     const response = await axios.get('/quiz/get-quizzes'); 
     return response.data.quiz;  
 })

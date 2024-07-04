@@ -22,7 +22,7 @@ const Signup: React.FC = () => {
         if (isLogin) {
             return navigate('/');
         }
-    }, [isLogin])
+    }, [isLogin, navigate])
 
     return (
         <div className='mt-20 w-11/12 md:w-1/2 lg:w-5/12 bg-white rounded-md px-10 py-10 mx-auto'>           <img className="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=gray&shade=800" alt="Your Company"></img>
