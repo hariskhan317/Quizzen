@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { postQuizQuestion, getAllQuizzes, getSingleQuiz, updateQuizResult } from './asyncThunk';
 
 interface Question {
+    selectedOptions: any;
     question: string;
     choices: string[];
     correctAnswer: string; 

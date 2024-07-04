@@ -7,15 +7,16 @@ interface quizQuestion{
     number: number;
 }
 
-interface quizResult {
-    selectedOptions: [string];
-}
+// interface quizResult {
+//     selectedOptions: [string];
+// }
 interface Quiz{
     question: string;
     choice: [string];
     correctAnswer: string;
 }
 
+type idType = string;
 interface Selection{
     selectedOptions: string[];
     id: string;
@@ -26,7 +27,7 @@ export const postQuizQuestion = createAsyncThunk<Quiz, quizQuestion>('quiz/postQ
     return response.data.quiz;  
 })
 
-export const getSingleQuiz = createAsyncThunk('quiz/getQuiz', async (id) => {
+export const getSingleQuiz = createAsyncThunk('quiz/getQuiz', async (id:idType) => {
     const response = await axios.get(`/quiz/get-quiz/${id}`);  
     return response.data;  
 })
