@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';  
+import { useEffect } from 'react';  
 import { useAppDispatch, useAppSelector } from '../store/hooks';  
 import { userAuthStatus } from '../store/userSlice/asyncThunk';
 import loaderGif from '../assets/load-8510_256.gif'; 
 import { useNavigate, useParams } from 'react-router-dom';
 import { getSingleQuiz } from '../store/quizSlice/asyncThunk';  
 
-const ResultPage = () => {
+const QuestionPage = () => {
     const { id } = useParams();
     const dispatch = useAppDispatch(); 
     const navigate = useNavigate();
@@ -60,4 +60,4 @@ const ResultPage = () => {
     );
 }
 
-export default ResultPage;
+export default QuestionPage;

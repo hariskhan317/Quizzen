@@ -7,11 +7,11 @@ interface QuizComponentProps {
     choices: string[];
     correctAnswer: string;
   };
-  index: number; 
-  active: number; 
+  index: number;
+  active: number | null;
   setIndex: (indexUpdater: (prevIndex: number) => number) => void;
   setActive: (active: number | null) => void;
-  setSelectedOptions: (selectedOptionsUpdater: (prev: string[]) => string[]) => void; 
+  setSelectedOptions: (selectedOptionsUpdater: (prev: string[]) => string[]) => void;
 }
 
 export const QuizComponent: React.FC<QuizComponentProps> = ({ setSelectedOptions, item, index, setIndex, active, setActive}) => {

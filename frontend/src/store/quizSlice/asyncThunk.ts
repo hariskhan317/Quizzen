@@ -16,6 +16,11 @@ interface Quiz{
     correctAnswer: string;
 }
 
+interface Selection{
+    selectedOptions: string[];
+    id: string;
+}
+
 export const postQuizQuestion = createAsyncThunk<Quiz, quizQuestion>('quiz/postQuizQuestion', async (data:quizQuestion) => {
     const response = await axios.post('/quiz/new', data);
     return response.data.quiz;  
@@ -31,9 +36,9 @@ export const getAllQuizzes = createAsyncThunk<Quiz, quizQuestion>('quiz/getAllQu
     return response.data.quiz;  
 })
 
-export const updateQuizResult = createAsyncThunk(
+export const updateQuizResult = createAsyncThunk<Quiz, Selection>(
     'quiz/updateQuizResult',
-    async (data) => {
+    async (data:Selection) => {
         try { 
             const response = await axios.post('/quiz/quiz-result', data);
             return response.data.quiz;  
