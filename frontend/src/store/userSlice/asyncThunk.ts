@@ -13,25 +13,18 @@ interface LoginData {
   password: string;
 }
 
-interface User {
-  username: string;
-  email: string;
-  password: string;
-  // Add other user properties if necessary
-}
-
-export const userSignup = createAsyncThunk<User, SignupData>(
+export const userSignup = createAsyncThunk(
   'user/signup',
   async (signupData: SignupData) => {
-    const response = await axios.post<User>('/user/signup', signupData);
+    const response = await axios.post('/user/signup', signupData);
     return response.data;
   }
 );
 
-export const userLogin = createAsyncThunk<User, LoginData>(
+export const userLogin = createAsyncThunk(
   'user/login',
   async (loginData: LoginData) => {
-    const response = await axios.post<User>('/user/login', loginData);
+    const response = await axios.post('/user/login', loginData);
     return response.data;
   }
 );
