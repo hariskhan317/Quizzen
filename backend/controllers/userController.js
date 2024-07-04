@@ -39,7 +39,7 @@ export const userSignup = async(req, res) => {
 
         res.clearCookie('auth_token', { 
             httpOnly: true,
-            sameSite: 'Strict',  
+            sameSite: 'None',  
             secure: process.env.NODE_ENV === 'production',
         })
         const token = createToken(user._id, user.email);
@@ -47,7 +47,7 @@ export const userSignup = async(req, res) => {
         res.cookie('auth_token', token, {
             maxAge: 1 * 24 * 60 * 60 * 1000,
             httpOnly: true,
-            sameSite: 'Strict',  
+            sameSite: 'None', 
             secure: process.env.NODE_ENV === 'production',
         })
         
@@ -76,7 +76,7 @@ export const userLogin = async (req, res) => {
 
         res.clearCookie('auth_token', { 
             httpOnly: true,
-            sameSite: 'Strict',  
+            sameSite: 'None', 
             secure: process.env.NODE_ENV === 'production',
         }) 
         const token = createToken(user._id, user.email);
@@ -84,7 +84,7 @@ export const userLogin = async (req, res) => {
         res.cookie('auth_token', token, {
             maxAge: 1 * 24 * 60 * 60 * 1000,
             httpOnly: true,
-            sameSite: 'Strict',  
+            sameSite: 'None', 
             secure: process.env.NODE_ENV === 'production',
         })
 
@@ -106,7 +106,7 @@ export const userLogout = async (req, res) => {
         }
         res.clearCookie('auth_token', { 
             httpOnly: true,
-            sameSite: 'Strict',  
+            sameSite: 'None', 
             secure: process.env.NODE_ENV === 'production',
         }) 
     
