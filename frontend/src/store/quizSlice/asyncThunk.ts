@@ -46,7 +46,7 @@ export const updateQuizResult = createAsyncThunk<Quiz, Selection>(
     
         } catch (error) {
             console.error('Error updating quiz result:', error);
-            throw error; // Ensure errors are propagated for proper error handling in Redux
+            throw error; 
         }
     }
 );
