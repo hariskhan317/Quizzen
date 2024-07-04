@@ -8,7 +8,7 @@ import appRouter from './routes/index.js'
 config();
 const app = express();
 app.use(cors({
-    origin: ["https://quizzen-frontend.vercel.app"],
+    origin: ["https://quizzen-frontend-git-master-hariskhan317s-projects.vercel.app"],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
 }));
