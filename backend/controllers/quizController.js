@@ -58,8 +58,7 @@ export const generateQuestion = async (req, res) => {
     }
 
     const openai = new OpenAI({
-      apiKey: process.env.OPENAI_SECRET,
-      organization: process.env.OPENAI_ORAGANIZATION_ID,
+      apiKey: process.env.OPENAI_SECRET, 
     });
 
     const quizQuestion = `Generate ${number} unique questions on ${topic} with 4 choices each. Do not repeat any questions.
