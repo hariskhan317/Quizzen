@@ -42,7 +42,8 @@ const QuestionPage = () => {
     return (
         <div className='w-full md:w-8712 mx-auto'>
             <h1 className="text-2xl font-bold mb-6 capitalize">{quiz.topic}</h1> 
-            {quiz.questions.map((item, index) => (
+  
+            {quiz?.questions?.map((item, index) => (
                 <div className='mt-7' key={index}>
                     <h1 className='text-lg font-medium text-black'>Q{index + 1}. {item.question}</h1>
                     <div className='grid grid-cols-2'>
@@ -51,10 +52,10 @@ const QuestionPage = () => {
                                 { choiceIndex + 1}. {choice}
                             </div>
                         ))} 
-                    </div>
+                    </div> 
                     <div className='text-base text-black capitalize mt-6'>
-                        Your Answer: {item.selectedOptions?.map((optionItem: string, optionIndex: number) => (
-                            <span className='font-bold' key={optionIndex}>{optionItem}</span>
+                        Your Answer: {item?.selectedOptions?.map((optionItem: { option: string, _id: string }, optionIndex: number) => (
+                            <span className='font-bold' key={optionIndex}>{optionItem.option}</span>
                         ))}
                     </div>
                     <div className='text-base text-black capitalize mt-2'>
