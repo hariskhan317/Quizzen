@@ -28,22 +28,15 @@ const Home: React.FC = () => {
             <main className="grid lg:grid-cols-2 gap-4 justify-items-center">
                 <section className="my-8 ">
                     <h2 className="text-3xl font-semibold">Take a New Quiz</h2>
-                    <p className="mt-4 text-lg">Select a category and start a new quiz now:</p>
+              <p className="mt-4 text-lg">Select a category and start a new quiz now:</p>
+              <p>Challenge yourself and your friends to see who knows more!</p>
+              <div className='flex gap-4'>
                     <button onClick={showModelHandle} className="mt-6 bg-gray-800 text-white py-2 px-4 rounded hover:bg-gray-900 transition duration-300">Start Quiz</button>
-                </section> 
-                <section className="my-8">
-                    <h2 className="text-3xl font-semibold">Recent Activity</h2>
-                    <ul className="mt-4 space-y-2 text-lg list-disc list-inside">
-                        <li>Quiz on General Knowledge: 85%</li>
-                        <li>Quiz on Science: 90%</li>
-                        <li>Quiz on History: 75%</li>
-                    </ul>
-                    <div className="">
-                        <Link to="/result">
-                            <button className="mt-6 bg-gray-800 text-white py-2 px-4 rounded hover:bg-gray-900 transition duration-300">See All Activity</button>
+                        <Link to="/result" className="mt-6 bg-gray-800 text-white py-2 px-4 rounded hover:bg-gray-900 transition duration-300">
+                          See All Results
                         </Link>
                     </div>
-                </section>
+                </section>  
                 {/* Model */}
             {showModel &&
               <>
@@ -71,15 +64,6 @@ const Home: React.FC = () => {
                                 <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">Log In</button>
                             </Link>
                         </div>
-                    </section>
-                    <section className="my-8">
-                        <h2 className="text-3xl font-semibold text-center">Features</h2>
-                        <ul className="mt-4 space-y-2 text-lg list-disc list-inside  grid grid-cols-2 justify-items-center md:px-40">
-                            <li>Wide variety of quizzes</li>
-                            <li>Track your progress</li>
-                            <li>Compete with friends</li>
-                            <li>Earn badges and rewards</li>
-                        </ul>
                     </section> 
               </main>
             </>
