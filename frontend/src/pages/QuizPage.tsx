@@ -26,8 +26,8 @@ const QuizPage = () => {
     if (postQuiz?.questions?.length) {
       if (index >= postQuiz.questions.length) {
         const data = { selectedOptions, id: postQuiz._id };
-        dispatch(updateQuizResult(data));
-        navigate('/result');
+        dispatch(updateQuizResult(data)); 
+        navigate('/result-page'); 
       }
     }
   }, [index, postQuiz, navigate, selectedOptions, dispatch]);

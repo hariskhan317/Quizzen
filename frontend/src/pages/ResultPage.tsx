@@ -35,7 +35,7 @@ const ResultPage: React.FC = () => {
     }
 
     return (
-        <div className="bg-gray-100">
+        <div className="bg-gray-100 pb-20">
             <h1 className="text-4xl font-bold mb-6 text-center">Quiz Result</h1>
             <div>
                 {quizzes.map((item) => (
