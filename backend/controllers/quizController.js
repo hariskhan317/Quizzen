@@ -29,25 +29,34 @@ export const getQuiz = async (req, res) => {
 
 export const getAllQuizQuestion = async (req, res) => {
   try {
-    const user = await User.findById(res.locals.jwtData.id)
+    // Ensure res.locals.jwtData.id exists
+    if (!res.locals.jwtData || !res.locals.jwtData.id) {
+      return res.status(401).send("Invalid token data");
+    }
+
+    const userId = res.locals.jwtData.id;
+    const user = await User.findById(userId);
+
     if (!user) {
-      return res.status(401).send("Cant Find the user")
+      return res.status(401).send("Can't find the user");
     }
 
-    if (user._id.toString() !== res.locals.jwtData.id) {
-        return res.status(401).send("Not the same user")
+    if (user._id.toString() !== userId) {
+      return res.status(401).send("Not the same user");
     }
 
-    const quiz = await Quiz.find();
+    // If user.quizzes is an array, you need to handle it accordingly
+    const quizIds = user.quizzes;
+    const quizzes = await Quiz.find({ _id: { $in: quizIds } });
 
-   
-    return res.status(200).send({quiz});
+    return res.status(200).send(quizzes);
   
   } catch (error) {
     console.error('Error:', error);
     return res.status(404).send({ message: 'NOT_FOUND 404 ERROR', cause: error.message });
   }
-} 
+}
+
 
 export const generateQuestion = async (req, res) => {
   try { 
